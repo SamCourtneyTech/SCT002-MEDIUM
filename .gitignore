@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.env
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Data and large files
+data/
+*.wav
+*.npy
+*.h5
+*.keras
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+
+# Node.js (if added later)
+node_modules/
+dist/
