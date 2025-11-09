@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(py:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(python -m venv:*)",
+      "Bash(.tf_envScriptsactivate)",
+      "Bash(tf_env/Scripts/python.exe -m pip:*)",
+      "Bash(tf_env/Scripts/python.exe:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -16,14 +16,38 @@ from sklearn.model_selection import train_test_split
 import soundfile as sf
 import matplotlib.pyplot as plt
 
+# Enable GPU if available
+print("TensorFlow version:", tf.__version__)
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+    print(f"GPU detected: {gpus}")
+    # Enable memory growth to avoid allocating all GPU memory at once
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
+else:
+    print("No GPU detected, using CPU")
+
 #%% Cell 2: Load data paths
 # Paths to audio files
-clean_path = "/Users/samcourtney/Downloads/DNS-Challenge/clean_output"
-noisy_path = "/Users/samcourtney/Downloads/DNS-Challenge/noisy_output"
+clean_path = r"C:\Users\samth\OneDrive\Documents\medium\DNS-Challenge\training_output\clean"
+noisy_path = r"C:\Users\samth\OneDrive\Documents\medium\DNS-Challenge\training_output\noisy"
+
+# SUBSET SIZE - Change this to train on more/fewer files
+MAX_FILES = 5000  # Set to None to use all files, or a number like 5000 for subset
 
 # Load audio files
-clean_files = [os.path.join(clean_path, f) for f in os.listdir(clean_path)]
-noisy_files = [os.path.join(noisy_path, f) for f in os.listdir(noisy_path)]
+all_clean_files = [os.path.join(clean_path, f) for f in os.listdir(clean_path) if f.endswith('.wav')]
+all_noisy_files = [os.path.join(noisy_path, f) for f in os.listdir(noisy_path) if f.endswith('.wav')]
+
+# Use subset if specified
+if MAX_FILES is not None:
+    clean_files = all_clean_files[:MAX_FILES]
+    noisy_files = all_noisy_files[:MAX_FILES]
+    print(f"Using SUBSET: {len(clean_files)} files (MAX_FILES={MAX_FILES})")
+else:
+    clean_files = all_clean_files
+    noisy_files = all_noisy_files
+    print(f"Using ALL files: {len(clean_files)} files")
 
 print(f"Found {len(clean_files)} clean files and {len(noisy_files)} noisy files")
 print(f"Clean path exists: {os.path.exists(clean_path)}")
@@ -251,7 +275,7 @@ print(f"Using batch size: {optimal_batch_size}")
 history = model.fit(
     X_train, y_train,
     validation_data=(X_val, y_val),
-    epochs=150,  # More epochs with early stopping
+    epochs=50,  # Reduced for faster training (early stopping will stop sooner if converged)
     batch_size=optimal_batch_size,
     verbose=1,
     callbacks=callbacks,

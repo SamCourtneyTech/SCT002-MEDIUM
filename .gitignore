@@ -6,6 +6,7 @@ __pycache__/
 .Python
 env/
 venv/
+tf_env/
 *.env
 
 # Jupyter Notebook
@@ -17,6 +18,11 @@ data/
 *.npy
 *.h5
 *.keras
+
+# Training and test output
+test_output/
+training_output/
+../DNS-Challenge/training_output/
 
 # IDE and system files
 .vscode/
